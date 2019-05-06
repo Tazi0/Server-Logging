@@ -4,6 +4,9 @@ local DISCORD_WEBHOOK = ""
 local DISCORD_NAME = "System"
 -- local DISCORD_IMAGE = "" !coming soon!
 
+--DON'T EDIT BELOW THIS
+
+
 --PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "**Serverlogging is ONLINE**"}), { ['Content-Type'] = 'application/json' })
 
 
