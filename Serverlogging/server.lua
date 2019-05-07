@@ -37,11 +37,11 @@ AddEventHandler('playerDied',function(killer,reason)
 		reason = 2
 	end
 	if reason == 0 then
-    	PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = GetPlayerName(source) .. " committed suicide"}), { ['Content-Type'] = 'application/json' })
+    	PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = GetPlayerName(source) .. " committed suicide", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
 	elseif reason == 1 then
-    	PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = GetPlayerName(source) .. " was killed by: " .. killer}), { ['Content-Type'] = 'application/json' })
+    	PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = GetPlayerName(source) .. " was killed by: " .. killer, avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
 	else
-    	PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = GetPlayerName(source) .. " died"}), { ['Content-Type'] = 'application/json' })
+    	PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = GetPlayerName(source) .. " died", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
 
 	end
 end)
