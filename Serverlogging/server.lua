@@ -11,7 +11,7 @@ local DISCORD_NAME = "System"
 
 
 AddEventHandler('chatMessage', function(source, name, message) 
-    PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = name, content = message}), { ['Content-Type'] = 'application/json' })
+    PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = name .. " [" .. source .. "]", content = message}), { ['Content-Type'] = 'application/json' })
 end)
 
 AddEventHandler('playerConnecting', function() 
