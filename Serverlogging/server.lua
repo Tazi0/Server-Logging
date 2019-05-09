@@ -24,11 +24,13 @@ AddEventHandler('chatMessage', function(source, name, message)
 end)
 
 AddEventHandler('playerConnecting', function() 
-    PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "```CSS\n".. GetPlayerName(source) .. " connecting\n```", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
+    --PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "```CSS\n".. GetPlayerName(source) .. " connecting\n```", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
+    sendToDiscord("Server Login", GetPlayerName(source) " is connecting to the server.")
 end)
 
 AddEventHandler('playerDropped', function(reason) 
-    PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "```fix\n".. GetPlayerName(source) .. " left ( ".. reason .. " )\n```", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
+    --PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "```fix\n".. GetPlayerName(source) .. " left ( ".. reason .. " )\n```", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
+    sendToDiscord("Server Logout", GetPlayerName(source) " has disconnected from the server.")
 end)
 
 RegisterServerEvent('playerDied')
@@ -70,4 +72,18 @@ function stringsplit(input, seperator)
 	end
 	
 	return t
+end
+
+function sendToDiscord(name, message)
+  local connect = {
+        {
+            ["color"] = "8663711",
+            ["title"] = "**".. name .."**",
+            ["description"] = message,
+            ["footer"] = {
+                ["text"] = "Made by Tazio",
+            },
+        }
+    }
+  PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, embeds = connect, avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
 end
