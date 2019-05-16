@@ -10,6 +10,13 @@ local DISCORD_IMAGE = "https://pbs.twimg.com/profile_images/847824193899167744/J
 PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "**Discord Webhook is ONLINE**"}), { ['Content-Type'] = 'application/json' })
 
 AddEventHandler('chatMessage', function(source, name, message) 
+
+	if string.match(message, "@everyone") then
+		message = message:gsub("@everyone", "`@everyone`")
+	end
+	if string.match(message, "@here") then
+		message = message:gsub("@here", "`@here`")
+	end
 	--print(tonumber(GetIDFromSource('steam', source), 16)) -- DEBUGGING
 	--print('https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=' .. STEAM_KEY .. '&steamids=' .. tonumber(GetIDFromSource('steam', source), 16))
 	if STEAM_KEY == '' or STEAM_KEY == nil then
