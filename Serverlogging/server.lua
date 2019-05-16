@@ -32,12 +32,12 @@ end)
 
 AddEventHandler('playerConnecting', function() 
     --PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "```CSS\n".. GetPlayerName(source) .. " connecting\n```", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
-    sendToDiscord("Server Login", GetPlayerName(source) " is connecting to the server.")
+    sendToDiscord("Server Login", GetPlayerName(source) .. " is connecting to the server.")
 end)
 
 AddEventHandler('playerDropped', function(reason) 
     --PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "```fix\n".. GetPlayerName(source) .. " left ( ".. reason .. " )\n```", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
-    sendToDiscord("Server Logout", GetPlayerName(source) " has disconnected from the server.")
+    sendToDiscord("Server Logout", GetPlayerName(source) .. " has disconnected from the server.")
 end)
 
 RegisterServerEvent('playerDied')
