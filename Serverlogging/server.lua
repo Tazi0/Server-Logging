@@ -7,7 +7,7 @@ local DISCORD_IMAGE = "https://pbs.twimg.com/profile_images/847824193899167744/J
 
 --DON'T EDIT BELOW THIS
 
-PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "**Discord Webhook is ONLINE**"}), { ['Content-Type'] = 'application/json' })
+PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "**Discord Webhook is ONLINE**", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
 
 AddEventHandler('chatMessage', function(source, name, message) 
 
@@ -32,12 +32,12 @@ end)
 
 AddEventHandler('playerConnecting', function() 
     --PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "```CSS\n".. GetPlayerName(source) .. " connecting\n```", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
-    sendToDiscord("Server Login", GetPlayerName(source) .. " is connecting to the server.")
+    sendToDiscord("Server Login", GetPlayerName(source) .. " is connecting to the server.", 65280)
 end)
 
 AddEventHandler('playerDropped', function(reason) 
     --PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "```fix\n".. GetPlayerName(source) .. " left ( ".. reason .. " )\n```", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
-    sendToDiscord("Server Logout", GetPlayerName(source) .. " has disconnected from the server.")
+    sendToDiscord("Server Logout", GetPlayerName(source) .. " has disconnected from the server.", 16711680)
 end)
 
 RegisterServerEvent('playerDied')
@@ -81,10 +81,10 @@ function stringsplit(input, seperator)
 	return t
 end
 
-function sendToDiscord(name, message)
+function sendToDiscord(name, message, color)
   local connect = {
         {
-            ["color"] = "8663711",
+            ["color"] = color,
             ["title"] = "**".. name .."**",
             ["description"] = message,
             ["footer"] = {
