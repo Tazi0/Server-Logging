@@ -37,7 +37,7 @@ end)
 
 AddEventHandler('playerDropped', function(reason) 
     --PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "```fix\n".. GetPlayerName(source) .. " left ( ".. reason .. " )\n```", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
-    sendToDiscord("Server Logout", GetPlayerName(source) .. " has disconnected from the server.", 16711680)
+    sendToDiscord("Server Logout", GetPlayerName(source) .. " has left the server. \n Reason: " .. reason, 16711680)
 end)
 
 RegisterServerEvent('playerDied')
