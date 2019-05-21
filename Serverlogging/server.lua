@@ -32,27 +32,17 @@ end)
 
 AddEventHandler('playerConnecting', function() 
     --PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "```CSS\n".. GetPlayerName(source) .. " connecting\n```", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
-    sendToDiscord("Server Login", GetPlayerName(source) .. " is connecting to the server.", 65280)
+    sendToDiscord("Server Login", "**" .. GetPlayerName(source) .. "** is connecting to the server.", 65280)
 end)
 
 AddEventHandler('playerDropped', function(reason) 
     --PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "```fix\n".. GetPlayerName(source) .. " left ( ".. reason .. " )\n```", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
-    sendToDiscord("Server Logout", GetPlayerName(source) .. " has left the server. \n Reason: " .. reason, 16711680)
+    sendToDiscord("Server Logout", "**" .. GetPlayerName(source) .. "** has left the server. \n Reason: " .. reason, 16711680)
 end)
 
 RegisterServerEvent('playerDied')
-AddEventHandler('playerDied',function(killer,reason)
-	if killer == "**Invalid**" then
-		reason = 2
-	end
-	if reason == 0 then
-    	PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = GetPlayerName(source) .. " committed suicide", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
-	elseif reason == 1 then
-    	PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = GetPlayerName(source) .. " was killed by: " .. killer, avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
-	else
-    	PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = GetPlayerName(source) .. " died", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
-
-	end
+AddEventHandler('playerDied',function(message)
+    sendToDiscord("Action", message, 16711680)
 end)
 
 function GetIDFromSource(Type, ID) --(Thanks To WolfKnight [forum.FiveM.net])
