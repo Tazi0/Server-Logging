@@ -7,7 +7,7 @@ local DISCORD_IMAGE = "https://pbs.twimg.com/profile_images/847824193899167744/J
 
 --DON'T EDIT BELOW THIS
 
-PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "**Discord Webhook is ONLINE**", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
+PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "Discord Webhook is **ONLINE**", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
 
 AddEventHandler('chatMessage', function(source, name, message) 
 
@@ -37,12 +37,10 @@ end)
 
 AddEventHandler('playerDropped', function(reason) 
 	local color = 16711680
-
 	if string.match(reason, "Kicked") or string.match(reason, "Banned") then
 		color = 16007897
 	end
-
-    sendToDiscord("Server Logout", "**" .. GetPlayerName(source) .. "** has left the server. \n Reason: " .. reason, color)
+  sendToDiscord("Server Logout", "**" .. GetPlayerName(source) .. "** has left the server. \n Reason: " .. reason, color)
 end)
 
 RegisterServerEvent('playerDied')
