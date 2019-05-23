@@ -25,7 +25,7 @@ AddEventHandler('chatMessage', function(source, name, message)
 		PerformHttpRequest('https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=' .. STEAM_KEY .. '&steamids=' .. tonumber(GetIDFromSource('steam', source), 16), function(err, text, headers)
 			local image = string.match(text, '"avatarfull":"(.-)","')
 			--print(image) -- DEBUGGING
-			return PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = name .. " [" .. source .. "]", content = message, avatar_url = image, tts = false}), { ['Content-Type'] = 'application/json' })
+			PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = name .. " [" .. source .. "]", content = message, avatar_url = image, tts = false}), { ['Content-Type'] = 'application/json' })
 		end)
 	end
 end)
@@ -36,13 +36,18 @@ AddEventHandler('playerConnecting', function()
 end)
 
 AddEventHandler('playerDropped', function(reason) 
-    --PerformHttpRequest(DISCORD_WEBHOOK, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, content = "```fix\n".. GetPlayerName(source) .. " left ( ".. reason .. " )\n```", avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })
-    sendToDiscord("Server Logout", "**" .. GetPlayerName(source) .. "** has left the server. \n Reason: " .. reason, 16711680)
+	local color = 16711680
+
+	if string.match(reason, "Kicked") or string.match(reason, "Banned") then
+		color = 16007897
+	end
+
+    sendToDiscord("Server Logout", "**" .. GetPlayerName(source) .. "** has left the server. \n Reason: " .. reason, color)
 end)
 
 RegisterServerEvent('playerDied')
 AddEventHandler('playerDied',function(message)
-    sendToDiscord("Action", message, 16711680)
+    sendToDiscord("Death log", message, 16711680)
 end)
 
 function GetIDFromSource(Type, ID) --(Thanks To WolfKnight [forum.FiveM.net])

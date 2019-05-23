@@ -13,66 +13,63 @@ local Burn = { 615608432, 883325847, -544306709 }
 local Drown = { -10959621, 1936677264 }
 
 Citizen.CreateThread(function()
-    -- main loop thing
-	alreadyDead = false
+    local alreadyDead = false
+
     while true do
         Citizen.Wait(50)
-		if IsEntityDead(playerPed) and not alreadyDead then
-			-- START OF CUSTOM
-       		local playerPed = GetPlayerPed(-1)
-        	local playerName = GetPlayerName(PlayerId())
-        	killer = GetPedKiller(playerPed)
-			killername = false
+        local playerPed = GetPlayerPed(-1)
+        if IsEntityDead(playerPed) and not alreadyDead then
+            local playerName = GetPlayerName(PlayerId())
+            killer = GetPedKiller(playerPed)
+            killername = false
 
+            for id = 0, 64 do
+                if killer == GetPlayerPed(id) then
+                    killername = GetPlayerName(id)
+                end
+            end
 
-			for id = 0, 64 do
-				if killer == GetPlayerPed(id) then
-					killername = GetPlayerName(id)
-				end
-			end
-        	-- Copied from esx plugin
-        	local death = GetPedCauseOfDeath(playerPed)
+            local death = GetPedCauseOfDeath(playerPed)
 
-        	if checkArray (Melee, death) then
-        		TriggerServerEvent('playerDied', killername .. " meleed " .. playerName)
-        	elseif checkArray (Bullet, death) then
-        		TriggerServerEvent('playerDied', killername .. " meleed " .. playerName)
-        	elseif checkArray (Knife, death) then
-        		TriggerServerEvent('playerDied', killername .. " meleed " .. playerName)
-        	elseif checkArray (Car, death) then
-        		TriggerServerEvent('playerDied', killername .. " hit " .. playerName)
-        	elseif checkArray (Animal, death) then
-        		TriggerServerEvent('playerDied', playerName .. " died by an animal")
-        	elseif checkArray (FallDamage, death) then
-        		TriggerServerEvent('playerDied', playerName .. " died of fall damage")
-        	elseif checkArray (Explosion, death) then
-        		TriggerServerEvent('playerDied', playerName .. " died of an explosion")
-        	elseif checkArray (Gas, death) then
-        		TriggerServerEvent('playerDied', playerName .. " died of gas")
-        	elseif checkArray (Burn, death) then
-        		TriggerServerEvent('playerDied', playerName .. " burned to death")
-        	elseif checkArray (Drown, death) then
-        		TriggerServerEvent('playerDied', playerName .. " drowned ")
-        	else
-         		TriggerServerEvent('playerDied', playerName .. " was killed by an unknown force")
-         		--print(GetPedCauseOfDeath(playerPed))
-        	end
-        	-- end of copy
-			alreadyDead = true
-		end
+            if checkArray (Melee, death) then
+                TriggerServerEvent('playerDied', killername .. " meleed " .. playerName)
+            elseif checkArray (Bullet, death) then
+                TriggerServerEvent('playerDied', killername .. " shot " .. playerName)
+            elseif checkArray (Knife, death) then
+                TriggerServerEvent('playerDied', killername .. " stabbed " .. playerName)
+            elseif checkArray (Car, death) then
+                TriggerServerEvent('playerDied', killername .. " hit " .. playerName)
+            elseif checkArray (Animal, death) then
+                TriggerServerEvent('playerDied', playerName .. " died by an animal")
+            elseif checkArray (FallDamage, death) then
+                TriggerServerEvent('playerDied', playerName .. " died of fall damage")
+            elseif checkArray (Explosion, death) then
+                TriggerServerEvent('playerDied', playerName .. " died of an explosion")
+            elseif checkArray (Gas, death) then
+                TriggerServerEvent('playerDied', playerName .. " died of gas")
+            elseif checkArray (Burn, death) then
+                TriggerServerEvent('playerDied', playerName .. " burned to death")
+            elseif checkArray (Drown, death) then
+                TriggerServerEvent('playerDied', playerName .. " drowned")
+            else
+                TriggerServerEvent('playerDied', playerName .. " was killed by an unknown force")
+                --print(death)
+            end
 
-		if not IsEntityDead(playerPed) then
-			alreadyDead = false
-		end
-	end
+            alreadyDead = true
+        end
+
+        if not IsEntityDead(playerPed) then
+            alreadyDead = false
+        end
+    end
 end)
 
 function checkArray (array, val)
-	for name, value in ipairs(array) do
-		if value == val then
-			return true
-		end
-	end
-
-	return false
+    for name, value in ipairs(array) do
+        if value == val then
+            return true
+        end
+    end
+    return false
 end
