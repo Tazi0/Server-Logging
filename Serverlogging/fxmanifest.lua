@@ -10,5 +10,10 @@ client_scripts {
 }
 
 server_scripts {
+<<<<<<< Updated upstream
     'server.lua'
+=======
+    'server.lua',
+    'test.lua'
+>>>>>>> Stashed changes
 }

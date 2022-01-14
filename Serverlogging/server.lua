@@ -1,6 +1,6 @@
 -- Made by Tazio
 
-local DISCORD_WEBHOOK = ""
+local DISCORD_WEBHOOK = "https://discord.com/api/webhooks/931662155567202315/587nSny28N8oSPcVwP75S2BXNMFBFADxQr38L4n4CwfTLBU4vhOyYejw6pMhUDACsrsz"
 local DISCORD_NAME = "System"
 local STEAM_KEY = ""
 local DISCORD_IMAGE = "https://pbs.twimg.com/profile_images/847824193899167744/J1Teh4Di_400x400.jpg" -- default is FiveM logo
@@ -43,6 +43,11 @@ AddEventHandler('playerDropped', function(reason)
   sendToDiscord("Server Logout", "**" .. GetPlayerName(source) .. "** has left the server. \n Reason: " .. reason, color)
 end)
 
+RegisterServerEvent('logging:send')
+AddEventHandler('logging:send',function(title, message, color)
+    sendToDiscord(messageVerify(title), messageVerify(message), color)
+end)
+
 RegisterServerEvent('playerDied')
 AddEventHandler('playerDied',function(message)
     sendToDiscord("Death log", message, 16711680)
@@ -72,6 +77,15 @@ function stringsplit(input, seperator)
 	end
 	
 	return t
+end
+
+function messageVerify(str)
+	patterns = {"<@(.-)>", "@(.-) ", "#(.-) "} -- Discord string matching
+	for i,v in ipairs(patterns) do
+		str = string.gsub(str, v, "")
+	end
+
+	return str
 end
 
 function sendToDiscord(name, message, color)
